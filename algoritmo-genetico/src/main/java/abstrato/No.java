@@ -4,8 +4,8 @@ public interface No {
 
 	Integer getX();
 	Integer getY();
-	String getName();
-	Object getValue();
-	double distanceTo(No destination);
+	String getNome();
+	Object getValor();
+	double distanciaPara(No destination);
 	
 }

@@ -25,7 +25,7 @@ public class GUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public GUI(Populacao populacao) {
-		this.nos = populacao.getFittest().getRota();
+		this.nos = populacao.getMaisApto().getRota();
 	}
 
 	private List<No> nos;
@@ -45,20 +45,20 @@ public class GUI extends JPanel {
 		for (int i = 0; i < nos.size(); i++) {
 			No no = nos.get(i);
 			No no2 = nos.get(i + 1 == nos.size() ? 0 : i + 1);
-			Line2D linha = desenharLinha(graphics, "" + no.getValue(), no.getX() + DIAMETRO / 2,
+			Line2D linha = desenharLinha(graphics, "" + no.getValor(), no.getX() + DIAMETRO / 2,
 					no.getY() + DIAMETRO / 2, no2.getX() + DIAMETRO / 2, no2.getY() + DIAMETRO / 2, Color.LIGHT_GRAY);
 			linhas.put(no, linha);
 		}
 
 		for (int i = 0; i < nos.size(); i++) {
 			No no = nos.get(i);
-			Ellipse2D elipse = desenharElipse(graphics, no.getName(), no.getX(), no.getY(), Color.BLUE, DIAMETRO);
+			Ellipse2D elipse = desenharElipse(graphics, no.getNome(), no.getX(), no.getY(), Color.BLUE, DIAMETRO);
 			elipses.put(no, elipse);
 		}
 
 		for (int i = 0; i < nos.size(); i++) {
 			No no = nos.get(i);
-			desenharRotulo(graphics, no.getName(), elipses.get(no), Color.RED);
+			desenharRotulo(graphics, no.getNome(), elipses.get(no), Color.RED);
 		}
 
 		graphics.dispose();

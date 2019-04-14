@@ -51,21 +51,21 @@ public class TSP_GA {
 
 		// Initialize population
 		Populacao pop = new Populacao(100, true);
-		System.out.println("Initial distance: " + pop.getFittest().getDistance());
+		System.out.println("Initial distance: " + pop.getMaisApto().getDistancia());
 
 		// Evolve population for 100 generations
 		pop = GA.evolvePopulation(pop);
 		for (int i = 0; i < 100; i++) {
 			pop = GA.evolvePopulation(pop);
-			System.out.println("Fittest: " + pop.getFittest());
+			System.out.println("Fittest: " + pop.getMaisApto());
 		}
 
 		// Print final results
 		System.out.println("Finished");
-		System.out.println("Fittest: " + pop.getFittest());
-		System.out.println("Final distance: " + pop.getFittest().getDistance());
+		System.out.println("Fittest: " + pop.getMaisApto());
+		System.out.println("Final distance: " + pop.getMaisApto().getDistancia());
 		System.out.println("Solution:");
-		System.out.println(pop.getFittest());
+		System.out.println(pop.getMaisApto());
 
 	}
 }

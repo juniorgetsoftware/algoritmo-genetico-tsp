@@ -4,83 +4,82 @@ import abstrato.No;
 
 public class GA {
 
-	private static final double mutationRate = 0.015;
-	private static final int tournamentSize = 5;
-	private static final boolean elitism = true;
+	private static final double taxaDeMutacao = 0.015;
+	private static final int tamanhoTorneio = 5;
+	private static final boolean elitismo = true;
 
-	public static Populacao evolvePopulation(Populacao pop) {
-		Populacao newPopulation = new Populacao(pop.populationSize(), false);
+	public static Populacao evolvePopulation(Populacao populacao) {
+		Populacao novaPopulacao = new Populacao(populacao.tamanhoPopulacao(), false);
 
-		int elitismOffset = 0;
-		if (elitism) {
-			newPopulation.saveTour(0, pop.getFittest());
-			elitismOffset = 1;
+		int elitismoOffset = 0;
+		if (elitismo) {
+			novaPopulacao.salvarRota(0, populacao.getMaisApto());
+			elitismoOffset = 1;
 		}
 
-		for (int i = elitismOffset; i < newPopulation.populationSize(); i++) {
-			Rota parent1 = tournamentSelection(pop);
-			Rota parent2 = tournamentSelection(pop);
-			Rota child = crossover(parent1, parent2);
-			newPopulation.saveTour(i, child);
+		for (int i = elitismoOffset; i < novaPopulacao.tamanhoPopulacao(); i++) {
+			Rota pai1 = selecaoPorTorneio(populacao);
+			Rota pai2 = selecaoPorTorneio(populacao);
+			Rota filho = cruzamento(pai1, pai2);
+			novaPopulacao.salvarRota(i, filho);
 		}
 
-		for (int i = elitismOffset; i < newPopulation.populationSize(); i++) {
-			mutate(newPopulation.getTour(i));
+		for (int i = elitismoOffset; i < novaPopulacao.tamanhoPopulacao(); i++) {
+			mutacao(novaPopulacao.getRota(i));
 		}
 
-		return newPopulation;
+		return novaPopulacao;
 	}
 
-	public static Rota crossover(Rota parent1, Rota parent2) {
-		Rota child = new Rota();
+	public static Rota cruzamento(Rota pai1, Rota pai2) {
+		Rota filho = new Rota();
+		int startPos = (int) (Math.random() * pai1.tamanhoRota());
+		int endPos = (int) (Math.random() * pai1.tamanhoRota());
 
-		int startPos = (int) (Math.random() * parent1.tamanhoRota());
-		int endPos = (int) (Math.random() * parent1.tamanhoRota());
-
-		for (int i = 0; i < child.tamanhoRota(); i++) {
+		for (int i = 0; i < filho.tamanhoRota(); i++) {
 			if (startPos < endPos && i > startPos && i < endPos) {
-				child.setNo(i, parent1.getNo(i));
+				filho.setNo(i, pai1.getNo(i));
 			} else if (startPos > endPos) {
 				if (!(i < startPos && i > endPos)) {
-					child.setNo(i, parent1.getNo(i));
+					filho.setNo(i, pai1.getNo(i));
 				}
 			}
 		}
 
-		for (int i = 0; i < parent2.tamanhoRota(); i++) {
-			if (!child.temNo(parent2.getNo(i))) {
-				for (int ii = 0; ii < child.tamanhoRota(); ii++) {
-					if (child.getNo(ii) == null) {
-						child.setNo(ii, parent2.getNo(i));
+		for (int i = 0; i < pai2.tamanhoRota(); i++) {
+			if (!filho.temNo(pai2.getNo(i))) {
+				for (int ii = 0; ii < filho.tamanhoRota(); ii++) {
+					if (filho.getNo(ii) == null) {
+						filho.setNo(ii, pai2.getNo(i));
 						break;
 					}
 				}
 			}
 		}
-		return child;
+		return filho;
 	}
 
-	private static void mutate(Rota tour) {
-		for (int tourPos1 = 0; tourPos1 < tour.tamanhoRota(); tourPos1++) {
-			if (Math.random() < mutationRate) {
-				int tourPos2 = (int) (tour.tamanhoRota() * Math.random());
+	private static void mutacao(Rota rota) {
+		for (int indice1 = 0; indice1 < rota.tamanhoRota(); indice1++) {
+			if (Math.random() < taxaDeMutacao) {
+				int indice2 = (int) (rota.tamanhoRota() * Math.random());
 
-				No city1 = tour.getNo(tourPos1);
-				No city2 = tour.getNo(tourPos2);
+				No no1 = rota.getNo(indice1);
+				No no2 = rota.getNo(indice2);
 
-				tour.setNo(tourPos2, city1);
-				tour.setNo(tourPos1, city2);
+				rota.setNo(indice2, no1);
+				rota.setNo(indice1, no2);
 			}
 		}
 	}
 
-	private static Rota tournamentSelection(Populacao pop) {
-		Populacao tournament = new Populacao(tournamentSize, false);
-		for (int i = 0; i < tournamentSize; i++) {
-			int randomId = (int) (Math.random() * pop.populationSize());
-			tournament.saveTour(i, pop.getTour(randomId));
+	private static Rota selecaoPorTorneio(Populacao pop) {
+		Populacao torneio = new Populacao(tamanhoTorneio, false);
+		for (int i = 0; i < tamanhoTorneio; i++) {
+			int idRandomico = (int) (Math.random() * pop.tamanhoPopulacao());
+			torneio.salvarRota(i, pop.getRota(idRandomico));
 		}
-		Rota fittest = tournament.getFittest();
-		return fittest;
+		Rota maisApto = torneio.getMaisApto();
+		return maisApto;
 	}
 }

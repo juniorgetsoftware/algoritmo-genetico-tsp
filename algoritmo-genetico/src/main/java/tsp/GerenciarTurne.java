@@ -9,8 +9,8 @@ public class GerenciarTurne {
 
 	private static List<No> nos = new ArrayList<No>();
 
-	public static void addNo(No city) {
-		nos.add(city);
+	public static void addNo(No no) {
+		nos.add(no);
 	}
 
 	public static No getNo(int index) {

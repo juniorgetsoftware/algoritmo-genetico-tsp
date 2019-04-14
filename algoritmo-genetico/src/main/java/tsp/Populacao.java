@@ -1,51 +1,43 @@
 package tsp;
 
-/**
- * Population.java Manages a population of candidate tours
- */
 public class Populacao {
 
-	// Holds population of tours
-	Rota[] tours;
+	private Populacao() {
+	}
 
-	// Construct a population
-	public Populacao(int populationSize, boolean initialise) {
-		tours = new Rota[populationSize];
-		// If we need to initialise a population of tours do so
-		if (initialise) {
-			// Loop and create individuals
-			for (int i = 0; i < populationSize(); i++) {
-				Rota newTour = new Rota();
-				newTour.gerarIndividuo();
-				saveTour(i, newTour);
+	private Rota[] rotas;
+
+	public Populacao(int tamanhoPopulacao, boolean inicializa) {
+		this();
+		rotas = new Rota[tamanhoPopulacao];
+		if (inicializa) {
+			for (int i = 0; i < tamanhoPopulacao(); i++) {
+				Rota novaRota = new Rota();
+				novaRota.gerarIndividuo();
+				salvarRota(i, novaRota);
 			}
 		}
 	}
 
-	// Saves a tour
-	public void saveTour(int index, Rota tour) {
-		tours[index] = tour;
+	public void salvarRota(int indice, Rota rota) {
+		rotas[indice] = rota;
 	}
 
-	// Gets a tour from population
-	public Rota getTour(int index) {
-		return tours[index];
+	public Rota getRota(int indice) {
+		return rotas[indice];
 	}
 
-	// Gets the best tour in the population
-	public Rota getFittest() {
-		Rota fittest = tours[0];
-		// Loop through individuals to find fittest
-		for (int i = 1; i < populationSize(); i++) {
-			if (fittest.getFitness() <= getTour(i).getFitness()) {
-				fittest = getTour(i);
+	public Rota getMaisApto() {
+		Rota maisApto = rotas[0];
+		for (int i = 1; i < tamanhoPopulacao(); i++) {
+			if (maisApto.getAptidao() <= getRota(i).getAptidao()) {
+				maisApto = getRota(i);
 			}
 		}
-		return fittest;
+		return maisApto;
 	}
 
-	// Gets population size
-	public int populationSize() {
-		return tours.length;
+	public int tamanhoPopulacao() {
+		return rotas.length;
 	}
 }

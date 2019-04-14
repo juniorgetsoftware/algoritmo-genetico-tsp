@@ -38,14 +38,14 @@ public class Rota {
 		distancia = 0;
 	}
 
-	public double getFitness() {
+	public double getAptidao() {
 		if (aptidao == 0) {
-			aptidao = 1 / (double) getDistance();
+			aptidao = 1 / (double) getDistancia();
 		}
 		return aptidao;
 	}
 
-	public int getDistance() {
+	public int getDistancia() {
 		if (distancia == 0) {
 			int distanciaDaRota = 0;
 			for (int indice = 0; indice < tamanhoRota(); indice++) {
@@ -56,7 +56,7 @@ public class Rota {
 				} else {
 					noDestino = getNo(0);
 				}
-				distanciaDaRota += noInicial.distanceTo(noDestino);
+				distanciaDaRota += noInicial.distanciaPara(noDestino);
 			}
 			distancia = distanciaDaRota;
 		}

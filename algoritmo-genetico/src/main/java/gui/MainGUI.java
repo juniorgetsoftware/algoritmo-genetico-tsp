@@ -23,7 +23,7 @@ public class MainGUI extends JFrame {
 
 		Populacao pop = new Populacao(100, true);
 		
-		pop.getFittest().getRota().sort(Comparator.comparing(No::getX).thenComparing(No::getY));
+		pop.getMaisApto().getRota().sort(Comparator.comparing(No::getX).thenComparing(No::getY));
 
 		GUI gui = new GUI(pop);
 		MainGUI main = new MainGUI();
